@@ -30,12 +30,24 @@ var Board = React.createClass({
 
 	},
 
+	getInitialState: function() {
+		return {
+			notes: [
+				'note1',
+				'note2',
+				'note3'
+			]
+		}
+	},
+
 	render: function() {
 		return (
 			<div className="board">
-			{this.props.count}
+				{this.state.notes.map(function(note, i) {
+					return (<Note key={i}>{note}</Note>);
+				})}	
 			</div>
-			);
+		);
 	}
 });
 
