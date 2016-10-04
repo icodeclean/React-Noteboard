@@ -60,13 +60,15 @@ var Board = React.createClass({
 
 	getInitialState: function() {
 		return {
-			notes: [
-				'note1',
-				'note2',
-				'note3'
-			]
-		}
+			notes: []
+		};
 	},
+
+	addNote: function(text) {
+		var arr = this.state.notes;
+		arr.push(text);
+		this.setState({notes: arr});
+	}, 
 
 	update: function(newText, i) {
 		var arr = this.state.notes;
@@ -76,7 +78,7 @@ var Board = React.createClass({
 
 	delete: function(i) {
 		var arr = this.state.notes;
-		arr.splice(i,0);
+		arr.splice(i,1);
 		this.setState({notes: arr});
 	},
 	eachNote: function(note, i) {
@@ -92,7 +94,8 @@ var Board = React.createClass({
 	render: function() {
 		return (
 			<div className="board">
-				{this.state.notes.map(this.eachNote)};
+				{this.state.notes.map(this.eachNote)}
+				<button onClick={this.addNote.bind(null, 'New Note')} className="btn btn-success glyphicon glyphicon-plus"/>
 			</div>
 		);
 	}
