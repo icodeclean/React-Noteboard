@@ -3,15 +3,14 @@ var Note = React.createClass({
 		return {editing: false};
 	},
 	save: function() {
-		var val= this.refs.newText.getDOMNode().value;
-		alert('saving' + val);
+		this.props.onChange(this.refs.newText.getDOMNode().value, this.props.index);
 		this.setState({editing: false});
 	},
 	edit: function() {
 		this.setState({editing: true});
 	},
 	trash: function() {
-		alert('trash');
+		this.props.onRemove(this.props.index);
 	},
 
 	renderForm: function() {
@@ -75,18 +74,25 @@ var Board = React.createClass({
 		this.setState({notes: arr});
 	},
 
-	delete: function() {
+	delete: function(i) {
 		var arr = this.state.notes;
 		arr.splice(i,0);
 		this.setState({notes: arr});
 	},
-
+	eachNote: function(note, i) {
+		return (
+			<Note 
+				key={i}
+				index={i}
+				onChange={this.update}
+				onRemove={this.delete}
+			>{note}</Note>
+		);
+	},
 	render: function() {
 		return (
 			<div className="board">
-				{this.state.notes.map(function(note, i) {
-					return (<Note key={i}>{note}</Note>);
-				})}	
+				{this.state.notes.map(this.eachNote)};
 			</div>
 		);
 	}
