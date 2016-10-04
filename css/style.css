@@ -63,3 +63,8 @@ div.note p {
 div.note button {
     margin: 2px;
 }
+
+div.note > textarea {
+    height: 75%;
+    background: rgba(255, 255, 255, .5);
+}

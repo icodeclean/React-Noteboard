@@ -1,11 +1,30 @@
 var Note = React.createClass({
+	getInitialState: function() {
+		return {editing: false};
+	},
+	save: function() {
+		var val= this.refs.newText.getDOMNode().value;
+		alert('saving' + val);
+		this.setState({editing: false});
+	},
 	edit: function() {
-		alert('editing');
+		this.setState({editing: true});
 	},
 	trash: function() {
 		alert('trash');
 	},
-	render: function() {
+
+	renderForm: function() {
+		return (
+			<div className ="note">
+				<textarea className="form-control" ref="newText" defaultValue={this.props.children}>
+				</textarea>
+				<button onClick={this.save} className="btn btn-success glyphicon glyphicon-check"/>
+			</div>
+		);	
+	},
+
+	renderDisplay: function() {
 		return (
 			<div className ="note">
 				<p>{this.props.children}</p>
@@ -13,7 +32,17 @@ var Note = React.createClass({
 					<button onClick={this.edit} className="btn btn-primary glyphicon glyphicon-edit"/>
 					<button onClick={this.trash} className="btn btn-danger glyphicon glyphicon-trash"/>
 				</span>
-			</div>);
+			</div>
+		);
+	},
+	render: function() {
+		if (this.state.editing == true) {
+			return this.renderForm();
+		}
+		else {
+			return this.renderDisplay();
+
+		}
 	}
 });
 
@@ -38,6 +67,18 @@ var Board = React.createClass({
 				'note3'
 			]
 		}
+	},
+
+	update: function(newText, i) {
+		var arr = this.state.notes;
+		arr[i] = newText;
+		this.setState({notes: arr});
+	},
+
+	delete: function() {
+		var arr = this.state.notes;
+		arr.splice(i,0);
+		this.setState({notes: arr});
 	},
 
 	render: function() {
