@@ -1,7 +1,9 @@
 var Note = React.createClass({
+
 	getInitialState: function() {
 		return {editing: false};
 	},
+
 	componentWillMount: function() {
 		this.style = {
 			right: this.randomBetween(0, window.innerWidth - 150) + 'px',
@@ -9,9 +11,11 @@ var Note = React.createClass({
 			transform: 'rotate(' + this.randomBetween(-15,15) + 'deg)'
 		};
 	},
+
 	componentDidMount: function(){
 		$(this.getDOMNode()).draggable();
 	},
+
 	randomBetween: function(min, max) {
 		return min + Math.ceil(Math.random() * max);
 	},
@@ -20,9 +24,11 @@ var Note = React.createClass({
 		this.props.onChange(this.refs.newText.getDOMNode().value, this.props.index);
 		this.setState({editing: false});
 	},
+
 	edit: function() {
 		this.setState({editing: true});
 	},
+
 	trash: function() {
 		this.props.onRemove(this.props.index);
 	},
@@ -48,6 +54,7 @@ var Note = React.createClass({
 			</div>
 		);
 	},
+
 	render: function() {
 		if (this.state.editing == true) {
 			return this.renderForm();
@@ -77,6 +84,7 @@ var Board = React.createClass({
 			notes: []
 		};
 	},
+
 	nextId: function() {
 		this.uniqueId = this.uniqueId || 0;
 		return this.uniqueId++;
@@ -102,6 +110,7 @@ var Board = React.createClass({
 		arr.splice(i,1);
 		this.setState({notes: arr});
 	},
+
 	eachNote: function(note, i) {
 		return (
 			<Note 
@@ -112,6 +121,7 @@ var Board = React.createClass({
 			>{note.note}</Note>
 		);
 	},
+	
 	render: function() {
 		return (
 			<div className="board">
