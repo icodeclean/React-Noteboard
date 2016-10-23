@@ -72,7 +72,7 @@ var Board = React.createClass({
 			if (typeof props[propName] !== "number" ) {
 				return new Error("Count must be a number!");
 			}
-			if (this.props[propName] > 100) {
+			if (props[propName] > 100) {
 				return new Error("Creating " + props[propName] + "notes is way too much!")
 			}
 		}
@@ -88,6 +88,18 @@ var Board = React.createClass({
 	nextId: function() {
 		this.uniqueId = this.uniqueId || 0;
 		return this.uniqueId++;
+	},
+
+	componentWillMount: function(){
+		var self = this;
+		if (this.props.count) {
+			$.getJSON("http://baconipsum.com/api/?type=all-meat&sentences=" + 
+				this.props.count + "&start-with-lorum=1&callback=?", function(results){
+					results[0].split('. ').forEach(function(sentence){
+						self.addNote(sentence.substring(0, 30))
+					});
+			});
+		}
 	},
 
 	addNote: function(text) {
@@ -132,4 +144,4 @@ var Board = React.createClass({
 	}
 });
 
-React.render(<Board count={10}>Hello</Board>, document.getElementById('react-container'));
+React.render(<Board count={10}/>, document.getElementById('react-container'));
